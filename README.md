@@ -6,4 +6,4 @@ This project was inspired by the first volume [Winning Ways for your Mathematica
 ## Details
 The repo provides an abstract Game class, and lists the requirements for the games this project was made for. Currently, the only game implmented is [Nim](https://www.wikiwand.com/en/Nim)
 
-<img src="https://github.com/NivenT/RGB/blob/master/screenshots/capture.jpg" alt="Screenshot" width="400" height="300"/>
+<img src="https://github.com/NivenT/SurrealAI/blob/master/screenshots/capture.jpg" alt="Screenshot" width="400" height="300"/>

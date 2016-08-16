@@ -34,29 +34,18 @@ Surreal Surreal::pretty() const {
 std::ostream& operator<<(std::ostream& out, const Surreal::Set& xs) {
     for (auto it = xs.begin(); it != xs.end();) {
         auto& x = *it;
+        bool printed = false;
         if (x.print_pretty) {
-            bool printed = false;
-            if (x > 0) {
-                for (int i = 0; x >= i; i++) {
-                    if (x == i) {
-                        out<<i;
-                        printed = true;
-                        break;
-                    }
-                }
-            } else {
-                for (int i = 0; x <= i; i--) {
-                    if (x == i) {
-                        out<<i;
-                        printed = true;
-                        break;
-                    }
+            int step = x > 0 ? 1 : -1;
+            Surreal cmp = x > 0 ? x : -x;
+            for (int i = 0; cmp >= i*step; i += step) {
+                if (x == i) {
+                    out<<i;
+                    printed = true;
                 }
             }
-            if (!printed) {
-                out<<x.pretty();
-            }
-        } else {
+        }
+        if (!printed) {
             out<<x;
         }
         if (++it != xs.end()) {
@@ -64,6 +53,10 @@ std::ostream& operator<<(std::ostream& out, const Surreal::Set& xs) {
         }
     }
     return out;
+}
+
+std::ostream& operator<<(std::ostream& out, const Surreal& x) {
+    return out<<"{ "<<x.left<<" | "<<x.right<<" }";
 }
 
 Surreal Surreal::operator=(const Surreal& rhs) {
@@ -78,10 +71,6 @@ Surreal Surreal::operator=(const Surreal& rhs) {
         right.insert(temp);
     }
     return *this;
-}
-
-std::ostream& operator<<(std::ostream& out, const Surreal& x) {
-    return out<<"{ "<<x.left<<" | "<<x.right<<" }";
 }
 
 bool Surreal::operator<=(const Surreal& rhs) const {
@@ -126,6 +115,17 @@ Surreal::Set Surreal::operator+(const Set& rhs) const {
     return ret;
 }
 
+Surreal Surreal::operator-() const {
+    Surreal ret;
+    for (const auto& xl : left) {
+        ret.right.insert(-xl);
+    }
+    for (const auto& xr : right) {
+        ret.left.insert(-xr);
+    }
+    return ret;
+}
+
 Surreal Surreal::operator+(const Surreal& rhs) const {
     Surreal ret;
 
@@ -140,4 +140,8 @@ Surreal Surreal::operator+(const Surreal& rhs) const {
     ret.right.insert(yrpx.begin(), yrpx.end());
 
     return ret;
+}
+
+Surreal Surreal::operator-(const Surreal& rhs) const {
+    return *this + -rhs;
 }

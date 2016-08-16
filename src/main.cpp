@@ -31,6 +31,7 @@ int main() {
         <<"1/2 = "<<Surreal(0,1).pretty()<<endl
         <<"1 = "<<Surreal(Surreal(0,1),Surreal(1,2))<<endl
         <<"1 = "<<Surreal(Surreal(0,1),Surreal(1,2)).pretty()<<endl
+        <<"-3 = "<<Surreal(-3).pretty()<<endl
         <<endl;
 
     cout<<"1 + 1  = "<<Surreal(1)+Surreal(1)<<endl

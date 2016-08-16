@@ -25,7 +25,9 @@ public:
     bool operator!=(const Surreal& rhs) const;
 
     Set operator+(const Set& rhs) const;
+    Surreal operator-() const;
     Surreal operator+(const Surreal& rhs) const;
+    Surreal operator-(const Surreal& rhs) const;
 
     friend std::ostream& operator<<(std::ostream&, const Surreal&);
     friend std::ostream& operator<<(std::ostream&, const Set&);

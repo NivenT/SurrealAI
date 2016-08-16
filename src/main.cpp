@@ -7,7 +7,7 @@ using namespace std;
 
 int main() {
     srand(time(nullptr));
-    Game* nim = new Nim(12);
+    Game* nim = new Nim(15);
 
     nim->render();
     bool turn = rand()%2; //HUMAN is left player (true)

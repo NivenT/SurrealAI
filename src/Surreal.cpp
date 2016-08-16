@@ -29,6 +29,11 @@ Surreal Surreal::Star(int n) {
     return ret;
 }
 
+Surreal::~Surreal() {
+    left.clear();
+    right.clear();
+}
+
 SurrealSign Surreal::sign() const {
     if (*this > 0) {
         return POSITIVE;
@@ -53,14 +58,9 @@ Surreal Surreal::pretty() const {
     return ret;
 }
 
-Surreal::~Surreal() {
-    left.clear();
-    right.clear();
-}
-
 std::ostream& operator<<(std::ostream& out, const Surreal::Set& xs) {
     for (auto it = xs.begin(); it != xs.end();) {
-        auto& x = *it;
+        const auto& x = *it;
         bool printed = false;
         if (x.print_pretty) {
             int step = x > 0 ? 1 : -1;
@@ -75,7 +75,7 @@ std::ostream& operator<<(std::ostream& out, const Surreal::Set& xs) {
                 out<<"*";
                 printed = true;
             }
-            //Messy, but I haven't thought of something better yet
+            //Messy, but I haven't thought of anything better
             if (!printed) for(int i = 2; i < 10; i++) {
                 if (x == Surreal::Star(i)) {
                     out<<"*"<<i;

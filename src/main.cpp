@@ -15,10 +15,10 @@ int main() {
     bool game_over = false;
     while (!game_over) {
         std::vector<int> poss = nim->get_valid_moves(turn);
+        int move = 0;
         if (poss.empty()) {
             break;
         } else if (turn) {
-            int move = 0;
             cout<<"How many stars would you like to remove? ";
             cin>>move;
 
@@ -26,10 +26,8 @@ int main() {
                 cout<<"That's not a valid number of stars. How many would you like to remove? ";
                 cin>>move;
             }
-
-            nim = nim->make_move(move);
         } else {
-            int move = poss[0];
+            move = poss[0];
             for (int i = 0; i < poss.size(); i++) {
                 Surreal value = nim->make_move(poss[i])->get_value();
                 if (value <= 0) {
@@ -51,8 +49,13 @@ int main() {
                 <<endl;
             /**/
             cout<<"I will remove "<<move<<" stars"<<endl;
-            nim = nim->make_move(move);
         }
+
+        poss.clear();
+        Game* temp = nim->make_move(move);
+        delete nim;
+        nim = temp;
+
         turn = !turn;
         nim->render();
     }

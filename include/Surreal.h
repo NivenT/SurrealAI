@@ -51,7 +51,6 @@ public:
 
     friend std::ostream& operator<<(std::ostream&, const Surreal&);
     friend std::ostream& operator<<(std::ostream&, const Set&);
-    friend int main();
 private:
     bool print_pretty = false;
     Set left, right;

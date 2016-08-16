@@ -1,10 +1,14 @@
 #include "Nim.h"
 
 Nim::Nim(int heap) : heap_size(heap) {
-    possible_moves = {1, 2, 3};
+    possible_moves = {3, 2, 1};
 }
 
 Nim::Nim(int heap, std::vector<int> poss) : heap_size(heap), possible_moves(poss) {
+}
+
+Nim::~Nim() {
+    possible_moves.clear();
 }
 
 std::vector<int> Nim::get_valid_moves(bool player) const {

@@ -7,35 +7,8 @@ using namespace std;
 
 int main() {
     srand(time(nullptr));
-    Game* nim = new Nim(13);
+    Game* nim = new Nim(12);
 
-    cout<<"2* = "<<(star+star).pretty()<<endl;
-
-    Surreal val = nim->get_value();
-
-    cout<<"val: "<<val.pretty()<<endl;
-    cout<<"val.sign(): "<<val.sign()<<endl;
-    cout<<"val.left.size(): "<<val.left.size()<<endl;
-    cout<<"val.right.size(): "<<val.right.size()<<endl;
-
-    std::vector<int> poss = nim->get_valid_moves(false);
-    for (auto& move : poss) {
-        cout<<nim->make_move(move)->get_value().pretty()<<endl;
-    }
-
-    cout<<star.pretty()<<endl;
-    cout<<(star == 0)<<endl;
-
-    Surreal::Set left, right;
-    left.insert(star);
-    left.insert(0);
-    right.insert(star);
-    right.insert(0);
-
-    cout<<"{L | R} = "<<Surreal(left, right)<<endl
-        <<"{L | R} = "<<Surreal(left, right).pretty()<<endl;
-
-    return 0;
     nim->render();
     bool turn = rand()%2; //HUMAN is left player (true)
 
@@ -64,13 +37,13 @@ int main() {
                     break;
                 }
             }
-            /*
+            /**
             cout<<"values: "<<endl
                 <<nim->make_move(poss[0])->get_value().pretty()<<endl
                 <<nim->make_move(poss[1])->get_value().pretty()<<endl
                 <<nim->make_move(poss[2])->get_value().pretty()<<endl
                 <<endl;
-            /**/
+            /**
             cout<<"signs of values: "<<endl
                 <<nim->make_move(poss[0])->get_value().sign()<<endl
                 <<nim->make_move(poss[1])->get_value().sign()<<endl

@@ -19,6 +19,16 @@ Surreal::Surreal(const Surreal& a, const Surreal& b) {
 Surreal::Surreal(const Set& l, const Set& r) : left(l), right(r) {
 }
 
+Surreal Surreal::Star(int n) {
+    Surreal ret;
+    for (int i = 0; i < n; i++) {
+        Surreal temp = Surreal::Star(i);
+        ret.left.insert(temp);
+        ret.right.insert(temp);
+    }
+    return ret;
+}
+
 SurrealSign Surreal::sign() const {
     if (*this > 0) {
         return POSITIVE;
@@ -64,6 +74,14 @@ std::ostream& operator<<(std::ostream& out, const Surreal::Set& xs) {
             if (x == star) {
                 out<<"*";
                 printed = true;
+            }
+            //Messy, but I haven't thought of something better yet
+            if (!printed) for(int i = 2; i < 10; i++) {
+                if (x == Surreal::Star(i)) {
+                    out<<"*"<<i;
+                    printed = true;
+                    break;
+                }
             }
         }
         if (!printed) {

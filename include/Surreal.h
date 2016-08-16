@@ -4,16 +4,36 @@
 #include <iostream>
 #include <set>
 
+/*
+G = {L | R}
+    G > 0 means left player can always win  (positive)
+    G < 0 means right player can always win (negative)
+    G = 0 means 2nd player can always win   (zero)
+    G | 0 means 1st player can always win   (fuzzy)
+*/
+enum SurrealSign{POSITIVE, NEGATIVE, ZERO, FUZZY};
+
+class Surreal;
+
 //Technically represents Games in general and not just Surreal numbers
 class Surreal {
 public:
-    typedef std::set<Surreal> Set;
+    ///Simply using less does not work because of fuzzy games
+    struct SurrealCompare {
+        bool operator()(const Surreal& lhs, const Surreal& rhs) {
+            return (lhs < rhs) || (!(lhs <= rhs) && !(rhs <= lhs));
+        }
+    };
+    typedef std::set<Surreal, SurrealCompare> Set;
 
     Surreal();
     Surreal(int n);
     Surreal(const Surreal& a, const Surreal& b);
     Surreal(const Set& l, const Set& r);
+    static Surreal Star(int n); ///"Constructor" for the nimbers *n
+    ~Surreal();
 
+    SurrealSign sign() const;
     Surreal pretty() const;
 
     Surreal operator=(const Surreal& rhs);
@@ -31,10 +51,13 @@ public:
 
     friend std::ostream& operator<<(std::ostream&, const Surreal&);
     friend std::ostream& operator<<(std::ostream&, const Set&);
+    friend int main();
 private:
     bool print_pretty = false;
     Set left, right;
 };
+
+const Surreal star(0, 0);
 
 std::ostream& operator<<(std::ostream& out, const Surreal& x);
 

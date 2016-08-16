@@ -19,6 +19,18 @@ Surreal::Surreal(const Surreal& a, const Surreal& b) {
 Surreal::Surreal(const Set& l, const Set& r) : left(l), right(r) {
 }
 
+SurrealSign Surreal::sign() const {
+    if (*this > 0) {
+        return POSITIVE;
+    } else if (*this < 0) {
+        return NEGATIVE;
+    } else if (*this == 0) {
+        return ZERO;
+    } else {
+        return FUZZY;
+    }
+}
+
 Surreal Surreal::pretty() const {
     Surreal ret;
     for (const auto& xl : left) {
@@ -29,6 +41,11 @@ Surreal Surreal::pretty() const {
     }
     ret.print_pretty = true;
     return ret;
+}
+
+Surreal::~Surreal() {
+    left.clear();
+    right.clear();
 }
 
 std::ostream& operator<<(std::ostream& out, const Surreal::Set& xs) {
@@ -43,6 +60,10 @@ std::ostream& operator<<(std::ostream& out, const Surreal::Set& xs) {
                     out<<i;
                     printed = true;
                 }
+            }
+            if (x == star) {
+                out<<"*";
+                printed = true;
             }
         }
         if (!printed) {
@@ -74,6 +95,17 @@ Surreal Surreal::operator=(const Surreal& rhs) {
 }
 
 bool Surreal::operator<=(const Surreal& rhs) const {
+    for (const auto& xl : left) {
+        if (rhs <= xl) {
+            return false;
+        }
+    }
+    for (const auto& yr : rhs.right) {
+        if (yr <= *this) {
+            return false;
+        }
+    }
+    /* Unsure if still correct with the modified Set ordering
     if (!rhs.right.empty()) {
         if (*rhs.right.begin() <= *this) {
             return false;
@@ -84,6 +116,7 @@ bool Surreal::operator<=(const Surreal& rhs) const {
             return false;
         }
     }
+    */
     return true;
 }
 

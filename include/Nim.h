@@ -10,7 +10,7 @@ public:
     ~Nim();
 
     std::vector<unsigned int> get_valid_moves(bool player) const;
-    Game* make_move(int move, bool player) const;
+    Game* make_move(int m, bool player) const;
     void render() const;
 private:
     std::vector<unsigned int> possible_moves;

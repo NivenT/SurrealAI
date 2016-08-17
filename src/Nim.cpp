@@ -22,8 +22,8 @@ std::vector<unsigned int> Nim::get_valid_moves(bool player) const {
     return poss;
 }
 
-Game* Nim::make_move(int move, bool player) const {
-    return new Nim(heap_size-move, possible_moves);
+Game* Nim::make_move(int m, bool player) const {
+    return new Nim(heap_size-m, possible_moves);
 }
 
 void Nim::render() const {

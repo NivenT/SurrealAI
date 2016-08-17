@@ -33,3 +33,8 @@ void Nim::render() const {
     }
     std::cout<<std::endl;
 }
+
+bool Nim::operator==(const Game* rhs) const {
+    int rhs_heap_size = ((Nim*)rhs)->heap_size;
+    return (heap_size != rhs_heap_size) ? false : std::equal(possible_moves.begin(), possible_moves.end(), ((Nim*)rhs)->possible_moves.begin());
+}

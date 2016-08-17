@@ -30,3 +30,7 @@ void GameSum::render() const {
 Surreal GameSum::calculate_value() const {
     return game1->get_value() + game2->get_value();
 }
+
+bool GameSum::operator==(const Game* rhs) const {
+    return !(*game1 == rhs) ? false : (*game2 == rhs);
+}

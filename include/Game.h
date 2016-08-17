@@ -31,10 +31,19 @@ public:
     virtual std::vector<unsigned int> get_valid_moves(bool player) const = 0;
     virtual Game* make_move(int m, bool player = true) const = 0;
     virtual void render() const = 0;
+
+    virtual bool operator==(const Game* rhs) const = 0;
 protected:
     virtual Surreal calculate_value() const;
 private:
-    static std::map<const Game*, Surreal> value_table;
+    //comparison based on logical state and not just memory address
+    struct GameCompare {
+        bool operator()(const Game* lhs, const Game* rhs) {
+            return lhs < rhs;
+            //return (*lhs == rhs) ? false : lhs < rhs; //Uses an insane amount of memory, but stores far fewer map elemtns. Still trying to figure out what is going on...
+        }
+    };
+    static std::map<const Game*, Surreal, GameCompare> value_table;
 };
 
 GameSum* operator+(const Game* lhs, const Game& rhs);
@@ -46,6 +55,8 @@ public:
     std::vector<unsigned int> get_valid_moves(bool player) const;
     Game* make_move(int m, bool player) const;
     void render() const;
+
+    virtual bool operator==(const Game* rhs) const;
 protected:
     Surreal calculate_value() const;
 private:

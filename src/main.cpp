@@ -1,6 +1,5 @@
 #include <iostream>
 #include <algorithm>
-#include <cassert>
 
 #include "Nim.h"
 
@@ -15,7 +14,7 @@ int main() {
 
     bool game_over = false;
     while (!game_over) {
-        std::vector<int> poss = nim->get_valid_moves(turn);
+        std::vector<unsigned int> poss = nim->get_valid_moves(turn);
         int move = 0;
         if (poss.empty()) {
             break;

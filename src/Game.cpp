@@ -23,3 +23,7 @@ Surreal Game::calculate_value() const {
     }
     return Surreal(left, right);
 }
+
+GameSum* Game::operator+(const Game* rhs) const {
+    return new GameSum(this, rhs);
+}

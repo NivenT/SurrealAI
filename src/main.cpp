@@ -1,5 +1,6 @@
 #include <iostream>
 #include <algorithm>
+#include <cassert>
 
 #include "Nim.h"
 
@@ -7,7 +8,7 @@ using namespace std;
 
 int main() {
     srand(time(nullptr));
-    Game* nim = new Nim(15);
+    Game* nim = new Nim(67, {4, 11, 3, 6, 13});
 
     nim->render();
     bool turn = rand()%2; //HUMAN is left player (true)

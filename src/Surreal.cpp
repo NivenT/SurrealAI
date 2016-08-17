@@ -20,13 +20,14 @@ Surreal::Surreal(const Set& l, const Set& r) : left(l), right(r) {
 }
 
 Surreal Surreal::Star(int n) {
-    Surreal ret;
-    for (int i = 0; i < n; i++) {
-        Surreal temp = Surreal::Star(i);
-        ret.left.insert(temp);
-        ret.right.insert(temp);
+    Surreal nimbers[n+1];
+    for (int i = 0; i <= n; i++) {
+        for (int j = 0; j < i; j++) {
+            nimbers[i].left.insert(nimbers[j]);
+            nimbers[i].right.insert(nimbers[j]);
+        }
     }
-    return ret;
+    return nimbers[n];
 }
 
 Surreal::~Surreal() {
@@ -123,18 +124,6 @@ bool Surreal::operator<=(const Surreal& rhs) const {
             return false;
         }
     }
-    /* Unsure if still correct with the modified Set ordering
-    if (!rhs.right.empty()) {
-        if (*rhs.right.begin() <= *this) {
-            return false;
-        }
-    }
-    if (!left.empty()) {
-        if (rhs <= *(--left.end())) {
-            return false;
-        }
-    }
-    */
     return true;
 }
 
@@ -158,12 +147,8 @@ bool Surreal::operator!=(const Surreal& rhs) const {
     return !(*this <= rhs) || !(rhs <= *this);
 }
 
-Surreal::Set Surreal::operator+(const Set& rhs) const {
-    Surreal::Set ret;
-    for (const auto& x : rhs) {
-        ret.insert(*this + x);
-    }
-    return ret;
+bool Surreal::operator|(const Surreal& rhs) const {
+    return !(*this <= rhs) && !(rhs <= *this);
 }
 
 Surreal Surreal::operator-() const {
@@ -177,18 +162,42 @@ Surreal Surreal::operator-() const {
     return ret;
 }
 
+Surreal::Set Surreal::operator+(const Set& rhs) const {
+    Surreal::Set ret;
+    for (const auto& x : rhs) {
+        ret.insert(*this + x);
+    }
+    return ret;
+}
+
 Surreal Surreal::operator+(const Surreal& rhs) const {
     Surreal ret;
 
     Set xlpy = rhs + left;
-    Set ylpx = *this + rhs.right;
+    Set ylpx = *this + rhs.left;
+    /* Gives wrong results for some reason
     ret.left.insert(xlpy.begin(), xlpy.end());
     ret.left.insert(ylpx.begin(), ylpx.end());
+    */
+    for (const auto& xl : xlpy) {
+        ret.left.insert(xl);
+    }
+    for (const auto& xl : ylpx) {
+        ret.left.insert(xl);
+    }
 
     Set xrpy = rhs + right;
     Set yrpx = *this + rhs.right;
+    /*
     ret.right.insert(xrpy.begin(), xrpy.end());
     ret.right.insert(yrpx.begin(), yrpx.end());
+    */
+    for (const auto& xr : xrpy) {
+        ret.right.insert(xr);
+    }
+    for (const auto& xr : yrpx) {
+        ret.right.insert(xr);
+    }
 
     return ret;
 }

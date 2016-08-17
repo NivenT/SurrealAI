@@ -1,6 +1,15 @@
 #include "Game.h"
 
+std::map<const Game*, Surreal> Game::value_table;
+
 Surreal Game::get_value() const {
+    if (value_table.find(this) == value_table.end()) {
+        value_table[this] = calculate_value();
+    }
+    return value_table[this];
+}
+
+Surreal Game::calculate_value() const {
     Surreal::Set left, right;
     for (const auto& move : get_valid_moves(true)) {
         Game* temp = make_move(move);

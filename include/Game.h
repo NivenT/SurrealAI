@@ -2,6 +2,7 @@
 #define GAME_H_INCLUDED
 
 #include <vector>
+#include <map>
 
 #include "Surreal.h"
 
@@ -24,6 +25,10 @@ public:
     virtual std::vector<int> get_valid_moves(bool player) const = 0;
     virtual Game* make_move(int move) const = 0;
     virtual void render() const = 0;
+protected:
+    virtual Surreal calculate_value() const;
+private:
+    static std::map<const Game*, Surreal> value_table;
 };
 
 #endif // GAME_H_INCLUDED

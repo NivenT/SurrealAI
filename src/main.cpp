@@ -7,8 +7,9 @@ using namespace std;
 bool play_nim() {
     Game* nim = new Nim(67, {4, 11, 3, 6, 13});
 
-    nim->render();
     bool turn = rand()%2; //HUMAN is left player (true)
+    nim->render();
+    cout<<endl;
 
     while (true) {
         vector<unsigned int> poss = nim->get_valid_moves(turn); int m = 0;
@@ -47,11 +48,12 @@ bool play_nim() {
 }
 
 bool play_2heap_nim() {
-    Nim g1(13);
-    Game* nim2 = g1 + new Nim(17);
+    Nim g1(3);
+    Game* nim2 = g1 + new Nim(7);
 
+    bool turn = rand()%2; //HUMAN is left player (true)
     nim2->render();
-    bool turn = rand()%2;
+    cout<<endl;
 
     while (true) {
         vector<unsigned int> poss = nim2->get_valid_moves(turn); int m = 0;
@@ -82,7 +84,7 @@ bool play_2heap_nim() {
                 }
             }
 
-            cout<<"I will remove "<<(m/2)<<" stars from heap "<<(m%2)<<endl;
+            cout<<"I will remove "<<(m/2)<<" "<<(m/2 == 1 ? "star" : "stars")<<" from heap "<<(m%2)<<endl;
         }
 
         poss.clear();
@@ -93,6 +95,7 @@ bool play_2heap_nim() {
         nim2->render();
         cout<<endl;
     }
+    return !turn;
 }
 
 int main() {

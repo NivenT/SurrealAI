@@ -3,6 +3,7 @@
 std::map<const Game*, Surreal, Game::GameCompare> Game::value_table;
 
 Surreal Game::get_value() const {
+    return calculate_value();
     if (value_table.find(this) == value_table.end()) {
         value_table[this] = calculate_value();
     }
@@ -12,10 +13,14 @@ Surreal Game::get_value() const {
 Surreal Game::calculate_value() const {
     Surreal::Set left, right;
     for (const auto& m : get_valid_moves(true)) {
-        left.insert(make_move(m)->get_value());
+        Game* temp = make_move(m);
+        left.insert(temp->get_value());
+        delete temp;
     }
     for (const auto& m : get_valid_moves(false)) {
-        right.insert(make_move(m)->get_value());
+        Game* temp = make_move(m);
+        right.insert(temp->get_value());
+        delete temp;
     }
     return Surreal(left, right);
 }

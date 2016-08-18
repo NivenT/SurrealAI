@@ -39,8 +39,7 @@ private:
     //comparison based on logical state and not just memory address
     struct GameCompare {
         bool operator()(const Game* lhs, const Game* rhs) {
-            return lhs < rhs;
-            //return (*lhs == rhs) ? false : lhs < rhs; //Uses an insane amount of memory, but stores far fewer map elemtns. Still trying to figure out what is going on...
+            return (lhs >= rhs) ? false : !(*lhs == rhs);
         }
     };
     static std::map<const Game*, Surreal, GameCompare> value_table;
@@ -51,6 +50,7 @@ GameSum* operator+(const Game* lhs, const Game& rhs);
 class GameSum : public Game {
 public:
     GameSum(const Game* g1, const Game* g2);
+    ~GameSum();
 
     std::vector<unsigned int> get_valid_moves(bool player) const;
     Game* make_move(int m, bool player) const;

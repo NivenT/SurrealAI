@@ -3,6 +3,19 @@
 GameSum::GameSum(const Game* g1, const Game* g2) : game1(g1), game2(g2) {
 }
 
+GameSum::~GameSum() {
+    /*
+    if (game1) {
+        delete game1;
+        game1 = nullptr;
+    }
+    if (game2) {
+        delete game2;
+        game2 = nullptr;
+    }
+    */
+}
+
 std::vector<unsigned int> GameSum::get_valid_moves(bool player) const {
     std::vector<unsigned int> valid;
     for (const auto& m : game1->get_valid_moves(player)) {

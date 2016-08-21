@@ -19,6 +19,23 @@ Surreal::Surreal(const Surreal& a, const Surreal& b) {
 Surreal::Surreal(const Set& l, const Set& r) : left(l), right(r) {
 }
 
+Surreal::Surreal(const Surreal& orig) : print_pretty(orig.print_pretty) {
+    left.clear();
+    for (auto& xl : orig.left) {
+        left.insert(xl);
+    }
+    right.clear();
+    for (auto& xr : orig.right) {
+        right.insert(xr);
+    }
+}
+
+Surreal::Surreal(Surreal&& orig) : print_pretty(orig.print_pretty), left(orig.left), right(orig.right) {
+    orig.print_pretty = false;
+    orig.left.clear();
+    orig.right.clear();
+}
+
 Surreal Surreal::Star(int n) {
     Surreal nimbers[n+1];
     for (int i = 0; i <= n; i++) {
@@ -97,20 +114,6 @@ std::ostream& operator<<(std::ostream& out, const Surreal::Set& xs) {
 
 std::ostream& operator<<(std::ostream& out, const Surreal& x) {
     return out<<"{ "<<x.left<<" | "<<x.right<<" }";
-}
-
-Surreal Surreal::operator=(const Surreal& rhs) {
-    left.clear();
-    for (auto xl : rhs.left) {
-        Surreal temp = xl;
-        left.insert(temp);
-    }
-    right.clear();
-    for (auto xr : rhs.right) {
-        Surreal temp = xr;
-        right.insert(temp);
-    }
-    return *this;
 }
 
 bool Surreal::operator<=(const Surreal& rhs) const {

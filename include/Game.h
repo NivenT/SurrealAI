@@ -1,12 +1,14 @@
 #ifndef GAME_H_INCLUDED
 #define GAME_H_INCLUDED
 
+#include <memory>
 #include <vector>
 #include <map>
 
 #include "Surreal.h"
 
 class GameSum;
+class Game;
 
 /**
 Game class meant to represent specific types of games.
@@ -23,13 +25,13 @@ public:
     Game() {}
     virtual ~Game() {}
 
-    Surreal get_value() const;
+    Surreal get_value(bool suicide = false) const;
 
     GameSum* operator+(const Game& rhs) const;
     GameSum* operator+(const Game* rhs) const;
 
     virtual std::vector<unsigned int> get_valid_moves(bool player) const = 0;
-    virtual Game* make_move(int m, bool player = true) const = 0;
+    virtual const Game* make_move(int m, bool player = true) const = 0;
     virtual void render() const = 0;
 
     virtual bool operator==(const Game* rhs) const = 0;
@@ -53,12 +55,12 @@ public:
     ~GameSum();
 
     std::vector<unsigned int> get_valid_moves(bool player) const;
-    Game* make_move(int m, bool player) const;
+    const Game* make_move(int m, bool player) const;
     void render() const;
 
     virtual bool operator==(const Game* rhs) const;
 protected:
-    Surreal calculate_value() const;
+    virtual Surreal calculate_value() const;
 private:
     const Game *game1, *game2;
 };

@@ -5,7 +5,7 @@
 using namespace std;
 
 bool play_nim() {
-    Game* nim = new Nim(67, {4, 11, 3, 6, 13});
+    const Game* nim = new Nim(67, {4, 11, 3, 6, 13});
 
     bool turn = rand()%2; //HUMAN is left player (true)
     nim->render();
@@ -37,8 +37,7 @@ bool play_nim() {
         }
 
         poss.clear();
-        Game* temp = nim->make_move(m); delete nim;
-        nim = temp;
+        nim = nim->make_move(m);
 
         turn = !turn;
         nim->render();
@@ -48,8 +47,8 @@ bool play_nim() {
 }
 
 bool play_2heap_nim() {
-    Nim g1(3);
-    Game* nim2 = g1 + new Nim(7);
+    Nim g1(13);
+    const Game* nim2 = std::move(g1) + new Nim(17);
 
     bool turn = rand()%2; //HUMAN is left player (true)
     nim2->render();
@@ -88,8 +87,7 @@ bool play_2heap_nim() {
         }
 
         poss.clear();
-        Game* temp = nim2->make_move(m); delete nim2;
-        nim2 = temp;
+        nim2 = nim2->make_move(m);
 
         turn = !turn;
         nim2->render();

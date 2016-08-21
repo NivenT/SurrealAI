@@ -1,11 +1,17 @@
 #include "Game.h"
 
-std::map<const Game*, Surreal, Game::GameCompare> Game::value_table;
+using namespace std;
 
-Surreal Game::get_value() const {
-    return calculate_value();
-    if (value_table.find(this) == value_table.end()) {
-        value_table[this] = calculate_value();
+map<const Game*, Surreal, Game::GameCompare> Game::value_table;
+
+Surreal Game::get_value(bool suicide) const {
+    auto it = value_table.find(this);
+    if (it == value_table.end()) {
+        value_table[this] = std::move(calculate_value());
+    } else if (it->first != this && suicide) {
+        Surreal value = std::move(value_table[this]);
+        delete this;
+        return value;
     }
     return value_table[this];
 }
@@ -13,14 +19,10 @@ Surreal Game::get_value() const {
 Surreal Game::calculate_value() const {
     Surreal::Set left, right;
     for (const auto& m : get_valid_moves(true)) {
-        Game* temp = make_move(m);
-        left.insert(temp->get_value());
-        delete temp;
+        left.insert(move(make_move(m)->get_value(true)));
     }
     for (const auto& m : get_valid_moves(false)) {
-        Game* temp = make_move(m);
-        right.insert(temp->get_value());
-        delete temp;
+        right.insert(move(make_move(m)->get_value(true)));
     }
     return Surreal(left, right);
 }

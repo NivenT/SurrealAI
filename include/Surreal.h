@@ -30,13 +30,17 @@ public:
     Surreal(int n);
     Surreal(const Surreal& a, const Surreal& b);
     Surreal(const Set& l, const Set& r);
+    Surreal(const Surreal& orig);
+    Surreal(Surreal&& orig);
     static Surreal Star(int n); ///"Constructor" for the nimbers *n
     ~Surreal();
 
     SurrealSign sign() const;
     Surreal pretty() const;
 
-    Surreal operator=(const Surreal& rhs);
+    Surreal& operator=(const Surreal& rhs) = default;
+    Surreal& operator=(Surreal&& rhs) = default;
+
     bool operator<=(const Surreal& rhs) const;
     bool operator<(const Surreal& rhs) const;
     bool operator>=(const Surreal& rhs) const;

@@ -6,7 +6,7 @@ using namespace std;
 
 bool play_nim() {
     vector<unsigned int> moves{4, 11, 3, 6, 13};
-    unique_ptr<Game> nim = make_unique<Nim>(30, moves);
+    unique_ptr<Game> nim = make_unique<Nim>(40, moves);
 
     bool turn = rand()%2; //HUMAN is left player (true)
     nim->render();
@@ -20,7 +20,7 @@ bool play_nim() {
             cout<<"How many stars would you like to remove? ";
             cin>>m;
 
-            while (std::find(poss.begin(), poss.end(), m) == poss.end()) {
+            while (find(poss.begin(), poss.end(), m) == poss.end()) {
                 cout<<"That's not a valid number of stars. How many would you like to remove? ";
                 cin>>m;
             }
@@ -48,7 +48,7 @@ bool play_nim() {
 }
 
 bool play_2heap_nim() {
-    unique_ptr<Game> nim2 = make_unique<GameSum>(make_shared<Nim>(15), make_shared<Nim>(17));
+    unique_ptr<Game> nim2 = make_unique<GameSum>(make_shared<Nim>(6), make_shared<Nim>(4));
 
     bool turn = rand()%2; //HUMAN is left player (true)
     nim2->render();
@@ -77,10 +77,6 @@ bool play_2heap_nim() {
             m = poss[0];
             for (int i = 0; i < poss.size(); i++) {
                 Surreal value = nim2->make_move(poss[i])->get_value();
-
-                cout<<"Value of move "<<i<<":"<<endl
-                    <<value.pretty()<<endl
-                    <<endl;
                 if (value <= 0) {
                     m = poss[i];
                     break;

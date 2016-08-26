@@ -1,7 +1,7 @@
 #include "Game.h"
 
 Surreal Game::get_value() const {
-    return is_memoizable() ? std::move(get_memo_value()) : std::move(calculate_value());
+    return is_memoizable() ? get_memo_value() : calculate_value();
 }
 
 Surreal Game::calculate_value() const {

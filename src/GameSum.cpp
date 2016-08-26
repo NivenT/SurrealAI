@@ -16,9 +16,9 @@ std::vector<unsigned int> GameSum::get_valid_moves(bool player) const {
 
 std::unique_ptr<Game> GameSum::make_move(int m, bool player) const {
     if (m%2 == 0) {
-        return std::make_unique<GameSum>(std::move(game1->make_move(m/2, player)), std::move(game2));
+        return std::make_unique<GameSum>(game1->make_move(m/2, player), game2);
     } else {
-        return std::make_unique<GameSum>(std::move(game1), std::move(game2->make_move(m/2, player)));
+        return std::make_unique<GameSum>(game1, game2->make_move(m/2, player));
     }
 }
 
@@ -28,5 +28,5 @@ void GameSum::render() const {
 }
 
 Surreal GameSum::calculate_value() const {
-    return game1->get_value() + game2->get_value();
+    return (game1->get_value() + game2->get_value()).simplify();
 }

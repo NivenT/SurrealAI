@@ -25,7 +25,7 @@ public:
     Game() {}
     virtual ~Game() {}
 
-    Surreal get_value(bool suicide = false) const;
+    Surreal get_value() const;
 
     GameSum* operator+(const Game& rhs) const;
     GameSum* operator+(const Game* rhs) const;
@@ -37,14 +37,6 @@ public:
     virtual bool operator==(const Game* rhs) const = 0;
 protected:
     virtual Surreal calculate_value() const;
-private:
-    //comparison based on logical state and not just memory address
-    struct GameCompare {
-        bool operator()(const Game* lhs, const Game* rhs) {
-            return (lhs >= rhs) ? false : !(*lhs == rhs);
-        }
-    };
-    static std::map<const Game*, Surreal, GameCompare> value_table;
 };
 
 GameSum* operator+(const Game* lhs, const Game& rhs);
@@ -52,7 +44,6 @@ GameSum* operator+(const Game* lhs, const Game& rhs);
 class GameSum : public Game {
 public:
     GameSum(const Game* g1, const Game* g2);
-    ~GameSum();
 
     std::vector<unsigned int> get_valid_moves(bool player) const;
     const Game* make_move(int m, bool player) const;

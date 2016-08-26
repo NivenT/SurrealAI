@@ -47,8 +47,8 @@ bool play_nim() {
 }
 
 bool play_2heap_nim() {
-    Nim g1(13);
-    const Game* nim2 = std::move(g1) + new Nim(17);
+    Nim g1(5);
+    const Game* nim2 = std::move(g1) + new Nim(7);
 
     bool turn = rand()%2; //HUMAN is left player (true)
     nim2->render();
@@ -98,7 +98,7 @@ bool play_2heap_nim() {
 
 int main() {
     srand(time(nullptr));
-    bool winner = play_nim();
+    bool winner = play_2heap_nim();
 
     cout<<"The winner is "<<(winner ? "HUMAN" : "COMPUTER")<<endl;
 

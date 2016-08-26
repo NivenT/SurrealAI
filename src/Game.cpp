@@ -12,7 +12,7 @@ Surreal Game::calculate_value() const {
     for (const auto& m : get_valid_moves(false)) {
         right.insert(std::move(make_move(m)->get_value()));
     }
-    return Surreal(std::move(left), std::move(right));
+    return Surreal(std::move(left), std::move(right)).simplify();
 }
 
 Surreal Game::get_memo_value() const {

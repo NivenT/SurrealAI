@@ -19,7 +19,7 @@ Surreal::Surreal(const Surreal& a, const Surreal& b) {
 Surreal::Surreal(const Set& l, const Set& r) : left(l), right(r) {
 }
 
-/**
+/**/
 Surreal::Surreal(const Surreal& orig) : print_pretty(orig.print_pretty) {
     for (auto& xl : orig.left) {
         left.insert(xl);
@@ -73,6 +73,39 @@ Surreal Surreal::pretty() const {
         ret.right.insert(xr.pretty());
     }
     ret.print_pretty = true;
+    return ret;
+}
+
+Surreal Surreal::simplify() const {
+    Surreal ret;
+    if (!left.empty()) {
+        Surreal maximum = *left.begin();
+        for (auto it = std::next(left.begin(), 1); it != left.end(); ++it) {
+            if (maximum <= *it) {
+                maximum = *it;
+            }
+        }
+        for (auto it = std::next(left.begin(), 1); it != left.end(); ++it) {
+            if (maximum || *it) {
+                ret.left.insert(*it);
+            }
+        }
+        ret.left.insert(maximum);
+    }
+    if (!right.empty()) {
+        Surreal minimum = *right.begin();
+        for (auto it = std::next(right.begin(), 1); it != right.end(); ++it) {
+            if (*it <= minimum) {
+                minimum = *it;
+            }
+        }
+        for (auto it = std::next(right.begin(), 1); it != right.end(); ++it) {
+            if (*it || minimum) {
+                ret.right.insert(*it);
+            }
+        }
+        ret.right.insert(minimum);
+    }
     return ret;
 }
 
@@ -150,7 +183,7 @@ bool Surreal::operator!=(const Surreal& rhs) const {
     return !(*this <= rhs) || !(rhs <= *this);
 }
 
-bool Surreal::operator|(const Surreal& rhs) const {
+bool Surreal::operator||(const Surreal& rhs) const {
     return !(*this <= rhs) && !(rhs <= *this);
 }
 

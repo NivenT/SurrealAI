@@ -37,7 +37,7 @@ Surreal Nim::get_memo_value() const {
 }
 
 bool Nim::is_memoizable() const {
-    return false; //Turned off until memory issues are resolved
+    return true; //Turned off until memory issues are resolved
 }
 
 std::unique_ptr<Game> Nim::make_move(int m, bool player) const {

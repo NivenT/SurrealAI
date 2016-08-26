@@ -10,10 +10,8 @@ public:
     ~Nim();
 
     std::vector<unsigned int> get_valid_moves(bool player) const;
-    const Game* make_move(int m, bool player) const;
+    std::unique_ptr<Game> make_move(int m, bool player) const;
     void render() const;
-
-    bool operator==(const Game* rhs) const;
 private:
     std::vector<unsigned int> possible_moves;
     int heap_size;

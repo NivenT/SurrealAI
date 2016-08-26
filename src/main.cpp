@@ -5,7 +5,7 @@
 using namespace std;
 
 bool play_nim() {
-    const Game* nim = new Nim(30, {4, 11, 3, 6, 13});
+    unique_ptr<Game> nim = make_unique<Nim>(30/*, {4, 11, 3, 6, 13}*/);
 
     bool turn = rand()%2; //HUMAN is left player (true)
     nim->render();
@@ -47,8 +47,7 @@ bool play_nim() {
 }
 
 bool play_2heap_nim() {
-    Nim g1(5);
-    const Game* nim2 = std::move(g1) + new Nim(7);
+    unique_ptr<Game> nim2 = make_unique<GameSum>(make_shared<Nim>(5), make_shared<Nim>(7));
 
     bool turn = rand()%2; //HUMAN is left player (true)
     nim2->render();

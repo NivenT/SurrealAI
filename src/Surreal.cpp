@@ -19,6 +19,7 @@ Surreal::Surreal(const Surreal& a, const Surreal& b) {
 Surreal::Surreal(const Set& l, const Set& r) : left(l), right(r) {
 }
 
+/*
 Surreal::Surreal(const Surreal& orig) : print_pretty(orig.print_pretty) {
     left.clear();
     for (auto& xl : orig.left) {
@@ -35,6 +36,7 @@ Surreal::Surreal(Surreal&& orig) : print_pretty(orig.print_pretty), left(orig.le
     orig.left.clear();
     orig.right.clear();
 }
+*/
 
 Surreal Surreal::Star(int n) {
     Surreal nimbers[n+1];

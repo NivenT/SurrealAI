@@ -19,13 +19,11 @@ Surreal::Surreal(const Surreal& a, const Surreal& b) {
 Surreal::Surreal(const Set& l, const Set& r) : left(l), right(r) {
 }
 
-/*
+/**
 Surreal::Surreal(const Surreal& orig) : print_pretty(orig.print_pretty) {
-    left.clear();
     for (auto& xl : orig.left) {
         left.insert(xl);
     }
-    right.clear();
     for (auto& xr : orig.right) {
         right.insert(xr);
     }
@@ -36,7 +34,7 @@ Surreal::Surreal(Surreal&& orig) : print_pretty(orig.print_pretty), left(orig.le
     orig.left.clear();
     orig.right.clear();
 }
-*/
+/**/
 
 Surreal Surreal::Star(int n) {
     Surreal nimbers[n+1];
@@ -180,10 +178,6 @@ Surreal Surreal::operator+(const Surreal& rhs) const {
 
     Set xlpy = rhs + left;
     Set ylpx = *this + rhs.left;
-    /* Gives wrong results for some reason
-    ret.left.insert(xlpy.begin(), xlpy.end());
-    ret.left.insert(ylpx.begin(), ylpx.end());
-    */
     for (const auto& xl : xlpy) {
         ret.left.insert(xl);
     }
@@ -193,10 +187,6 @@ Surreal Surreal::operator+(const Surreal& rhs) const {
 
     Set xrpy = rhs + right;
     Set yrpx = *this + rhs.right;
-    /*
-    ret.right.insert(xrpy.begin(), xrpy.end());
-    ret.right.insert(yrpx.begin(), yrpx.end());
-    */
     for (const auto& xr : xrpy) {
         ret.right.insert(xr);
     }

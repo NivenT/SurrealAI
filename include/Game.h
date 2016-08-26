@@ -3,7 +3,6 @@
 
 #include <memory>
 #include <vector>
-#include <map>
 
 #include "Surreal.h"
 
@@ -32,17 +31,19 @@ public:
     virtual void render() const = 0;
 protected:
     virtual Surreal calculate_value() const;
+    virtual Surreal get_memo_value() const;
+    virtual bool is_memoizable() const;
 };
 
 class GameSum : public Game {
 public:
     GameSum(std::shared_ptr<Game> g1, std::shared_ptr<Game> g2);
 
-    std::vector<unsigned int> get_valid_moves(bool player) const;
-    std::unique_ptr<Game> make_move(int m, bool player) const;
-    void render() const;
+    std::vector<unsigned int> get_valid_moves(bool player) const override;
+    std::unique_ptr<Game> make_move(int m, bool player) const override;
+    void render() const override;
 protected:
-    virtual Surreal calculate_value() const;
+    Surreal calculate_value() const override;
 private:
     std::shared_ptr<Game> game1, game2;
 };

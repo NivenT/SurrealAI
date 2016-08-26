@@ -5,7 +5,7 @@
 using namespace std;
 
 bool play_nim() {
-    const Game* nim = new Nim(67, {4, 11, 3, 6, 13});
+    const Game* nim = new Nim(30, {4, 11, 3, 6, 13});
 
     bool turn = rand()%2; //HUMAN is left player (true)
     nim->render();
@@ -98,7 +98,7 @@ bool play_2heap_nim() {
 
 int main() {
     srand(time(nullptr));
-    bool winner = play_2heap_nim();
+    bool winner = play_nim();
 
     cout<<"The winner is "<<(winner ? "HUMAN" : "COMPUTER")<<endl;
 

@@ -7,9 +7,9 @@ map<const Game*, Surreal, Game::GameCompare> Game::value_table;
 Surreal Game::get_value(bool suicide) const {
     auto it = value_table.find(this);
     if (it == value_table.end()) {
-        value_table[this] = std::move(calculate_value());
+        value_table[this] = move(calculate_value());
     } else if (it->first != this && suicide) {
-        Surreal value = std::move(value_table[this]);
+        Surreal value = move(value_table[this]);
         delete this;
         return value;
     }

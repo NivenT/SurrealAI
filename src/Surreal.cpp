@@ -1,3 +1,5 @@
+#include <algorithm>
+
 #include "Surreal.h"
 
 Surreal::Surreal() {
@@ -79,32 +81,22 @@ Surreal Surreal::pretty() const {
 Surreal Surreal::simplify() const {
     Surreal ret;
     if (!left.empty()) {
-        Surreal maximum = *left.begin();
-        for (auto it = std::next(left.begin(), 1); it != left.end(); ++it) {
-            if (maximum <= *it) {
-                maximum = *it;
-            }
-        }
-        for (auto it = std::next(left.begin(), 1); it != left.end(); ++it) {
+        Surreal maximum = *std::max_element(left.begin(), left.end());
+        for (auto it = left.begin(); it != left.end(); ++it) {
             if (maximum || *it) {
-                ret.left.insert(*it);
+                ret.left.insert(it->simplify());
             }
         }
-        ret.left.insert(maximum);
+        ret.left.insert(maximum.simplify());
     }
     if (!right.empty()) {
-        Surreal minimum = *right.begin();
-        for (auto it = std::next(right.begin(), 1); it != right.end(); ++it) {
-            if (*it <= minimum) {
-                minimum = *it;
-            }
-        }
-        for (auto it = std::next(right.begin(), 1); it != right.end(); ++it) {
+        Surreal minimum = *std::min_element(right.begin(), right.end());
+        for (auto it = right.begin(); it != right.end(); ++it) {
             if (*it || minimum) {
-                ret.right.insert(*it);
+                ret.right.insert(it->simplify());
             }
         }
-        ret.right.insert(minimum);
+        ret.right.insert(minimum.simplify());
     }
     return ret;
 }
@@ -127,8 +119,13 @@ std::ostream& operator<<(std::ostream& out, const Surreal::Set& xs) {
                 printed = true;
             }
             //Messy, but I haven't thought of anything better
-            if (!printed) for(int i = 2; i < 10; i++) {
-                if (x == Surreal::Star(i)) {
+            Surreal nimbers[10];
+            if (!printed) for(int i = 1; i < 10; i++) {
+                for (int j = 0; j < i; j++) {
+                    nimbers[i].left.insert(nimbers[j]);
+                    nimbers[i].right.insert(nimbers[j]);
+                }
+                if (x == nimbers[i]) {
                     out<<"*"<<i;
                     printed = true;
                     break;
@@ -211,18 +208,16 @@ Surreal Surreal::operator+(const Surreal& rhs) const {
 
     Set xlpy = rhs + left;
     Set ylpx = *this + rhs.left;
-    for (const auto& xl : xlpy) {
-        ret.left.insert(xl);
-    }
+
+    ret.left.swap(xlpy);
     for (const auto& xl : ylpx) {
         ret.left.insert(xl);
     }
 
     Set xrpy = rhs + right;
     Set yrpx = *this + rhs.right;
-    for (const auto& xr : xrpy) {
-        ret.right.insert(xr);
-    }
+
+    ret.right.swap(xrpy);
     for (const auto& xr : yrpx) {
         ret.right.insert(xr);
     }

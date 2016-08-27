@@ -26,7 +26,7 @@ bool play_nim() {
             }
         } else {
             m = poss[0];
-            for (int i = 0; i < poss.size(); i++) {
+            for (size_t i = 0; i < poss.size(); i++) {
                 Surreal value = nim->make_move(poss[i])->get_value();
                 if (value <= 0) {
                     m = poss[i];
@@ -75,7 +75,7 @@ bool play_2heap_nim() {
             } while (find(poss.begin(), poss.end(), m) == poss.end());
         } else {
             m = poss[0];
-            for (int i = 0; i < poss.size(); i++) {
+            for (size_t i = 0; i < poss.size(); i++) {
                 Surreal value = nim2->make_move(poss[i])->get_value();
                 if (value <= 0) {
                     m = poss[i];
@@ -97,6 +97,20 @@ bool play_2heap_nim() {
 }
 
 int main() {
+    /** Tests
+    cout<<Surreal({0,1,2,3,4,5},{Surreal::Star(4), star}).simplify().pretty()<<endl
+        <<Surreal({0,star, star, star, star, star,0,0},{0, 0, star}).simplify().pretty()<<endl
+        <<Surreal({star, 2},{-1, -3, 4, star}).simplify().pretty()<<endl
+        <<Surreal({0,1},{1, -1, 0}).simplify().pretty()<<endl
+        <<Surreal({star, Surreal::Star(2)},{1, 0, Surreal::Star(5)}).simplify().pretty()<<endl
+        <<(Surreal(5) + Surreal(7)).pretty()<<endl
+        <<(Surreal::Star(3) + Surreal::Star(5)).simplify().pretty()<<endl
+        <<((Surreal::Star(3) + Surreal::Star(5)) == Surreal::Star(6))<<endl
+        <<(Surreal::Star(4) + 1).simplify().pretty()<<endl
+        <<endl;
+    return 0;
+    **/
+
     srand(time(nullptr));
     bool winner = play_2heap_nim();
 

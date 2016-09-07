@@ -20,6 +20,6 @@ This is essentially, Tic-Tac-Toe, except both players use X. In the original Not
 ### GameSum
 This represents the sum of two arbitrary games. Each turn, a player chooses which game to make a move in and then chooses which move to make. When a player can no longer make a move in either game, she loses.
 
-<img src="https://github.com/NivenT/SurrealAI/blob/master/screenshots/capture2.jpg" alt="Screenshot" width="400" height="300"/>
+<img src="https://github.com/NivenT/SurrealAI/blob/master/screenshots/capture2.jpg" alt="Screenshot" width="400" height="500"/>
 
 ^^^ Sum of Notakto and Nim

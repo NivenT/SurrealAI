@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "Nim.h"
 
 struct NimCompare {
@@ -31,7 +33,7 @@ std::vector<unsigned int> Nim::get_valid_moves(bool) const {
 
 Surreal Nim::get_memo_value() const {
     if (value_table.find(*this) == value_table.end()) {
-        return value_table[*this] = std::move(calculate_value());
+        return value_table[*this] = calculate_value();
     }
     return value_table[*this];
 }

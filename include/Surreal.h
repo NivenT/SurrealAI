@@ -1,7 +1,7 @@
 #ifndef SURREAL_H_INCLUDED
 #define SURREAL_H_INCLUDED
 
-#include <iostream>
+#include <ostream>
 #include <set>
 
 /*

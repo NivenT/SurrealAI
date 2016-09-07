@@ -75,13 +75,13 @@ std::unique_ptr<Game> Notakto::make_move(int m, bool player) const {
 }
 
 void Notakto::render() const {
-    std::cout<<std::endl<<std::string(4*board_size + 1, '-')<<std::endl;
     for (size_t row = 0; row < board_size; ++row) {
-        std::cout<<"|";
         for (size_t col = 0; col < board_size; ++col) {
-            std::cout<<" "<<(board[row*board_size + col] ? 'X' : ' ')<<" |";
+            std::cout<<" "<<(board[row*board_size + col] ? 'X' : ' ')<<' ';
+            if (col + 1 < board_size) std::cout<<'|';
         }
-        std::cout<<std::endl<<std::string(4*board_size + 1, '-')<<std::endl;
+        std::cout<<std::endl;
+        if (row + 1 < board_size) std::cout<<std::string(4*board_size - 1, '-')<<std::endl;
     }
 }
 
